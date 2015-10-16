@@ -1,0 +1,317 @@
+DSC_FW  0x0
+{
+    ; Special RO is the exception table, version info and clock API that will be
+    ; lock in cache
+    SPECIAL_RO +0x0
+    {
+        Startup.o (+RO, +FIRST)
+        VersionInfo.o (+RO)
+    }
+
+    SPECIAL_CLOCK_RW +0x0
+    {
+        Clock.o (+RW)
+    }
+
+    SPECIAL_CLOCK_RO +0x0
+    {
+        ClockAPI.o (+RO, +FIRST)
+        Clock.o (+RO-CODE)
+        Clock.o (+RO-DATA, +LAST)
+    }
+
+    ; Part one is the kernel and driver rquired for lens control
+    PART_ONE_RO +0x0
+    {
+; The object codes that don't have any RO section are marked to prevent linker warning
+; If you modify any code below, make sure to check these configuration again.
+; Standard C library
+        *.l (+RO)
+; Startup code
+        DATKER.o (+RO)
+        InitCLibMMU.o (+RO)
+        KerInit.o (+RO)
+        Loader.o (+RO)
+        CopyRest.o (+RO)
+        SysCfg.o (+RO)
+        Main.o (+RO)
+        OSCommon.o (+RO)
+        StartKer.o (+RO)
+        SystemInit.o (+RO)
+        SystemTask.o (+RO)
+        GPIOMapping.o (+RO)
+; Kernel
+        IntHnder.o (+RO)
+        Kcenque.o (+RO)
+;        KCHGPTY.o (+RO)
+        KCHK_FLG.o (+RO)
+        KCLR_FLG.o (+RO)
+        KCSUSPD.o (+RO)
+        Kdef_int.o (+RO)
+        Kdis_int.o (+RO)
+        Kena_int.o (+RO)
+        ker.o (+RO)
+        KerVerInfo.o (+RO)
+        KEXT_TSK.o (+RO)
+;        KGET_BLFSIZ.o (+RO)
+;        KGET_TID.o (+RO)
+        KICR_FLG.o (+RO)
+        KICR_MBX.o (+RO)
+        KICR_MPF.o (+RO)
+        KICR_SEM.o (+RO)
+        KICR_TSK.o (+RO)
+        KINI_FLG.o (+RO)
+        KINI_MBX.o (+RO)
+        KINI_MPF.o (+RO)
+        KINI_SEM.o (+RO)
+        KINI_TCB.o (+RO)
+        KREL_BLF.o (+RO)
+        KRSM_TSK.o (+RO)
+        KSET_FLG.o (+RO)
+        KSIG_SEM.o (+RO)
+;        KSND_MSG.o (+RO)
+        KSRESUM.o (+RO)
+        KSTA_TSK.o (+RO)
+        KSUS_TSK.o (+RO)
+;        KTCV_MSG.o (+RO)
+        KTER_TSK.o (+RO)
+        KTGT_BLF.o (+RO)
+;        KTSERVC.o (+RO)
+        KTWI_FLG.o (+RO)
+        KTWI_SEM.o (+RO)
+        Scheduler.o (+RO)
+        KLOC_CPU.o (+RO)
+        KUNL_CPU.o (+RO)
+
+; Driver
+        DrvCommon.o (+RO)
+        Interrupt.o (+RO)
+        NAND.o (+RO)
+        NAND_PS.o (+RO)
+        nor_ps.o (+RO)
+        PStore.o (+RO)
+        PLL.o (+RO)
+        SDIO.o (+RO)
+        SDIOII.o (+RO)
+        xD.o (+RO)
+        Top.o (+RO)
+        FDMA.o (+RO)
+        FDMA2.o (+RO)
+        Cache.o (+RO)
+        GPIO.o (+RO)
+        Pad.o (+RO)
+        SIF.o (+RO)
+        spi.o (+RO)
+        SpiFlash.o (+RO)
+		ide.o	(+RO)
+		ide_tv.o	(+RO)
+		ide_video.o	(+RO)
+        ide_lib.o	(+RO)
+        ide_compat.o	(+RO)
+        RamDisk.o (+RO)
+        amba.o (+RO)
+        Uart.o (+RO)
+	    FileSysTskAPI.o (+RO)
+	    PrimaryAPI.o	(+RO)
+	    PrimaryTsk.o	(+RO)
+	    SystemClock.o	(+RO)
+	    DMA.o (+RO)
+	    JPEG.o	(+RO)
+        Timer.o (+RO)
+        RTC.o (+RO)
+        TP_NVT.o (+RO)
+        Gesture.o (+RO)
+; Task
+        INITSK.o (+RO)
+        LensCtrlTsk.o (+RO)
+        LensAPI.o (+RO)
+        LensDrv_FF.o (+RO)
+        LensMotor_PSEUDO.o (+RO)
+; Debug
+        Debug.o (+RO)
+; Utility
+        Delay.o (+RO)
+        lz.o (+RO)
+        JpgEnc.o (+RO)
+        JpgDec.o (+RO)
+        JpegHeader.o (+RO)
+        JpgParseHeader.o (+RO)
+        GiantPlusGPM1050A0.o (+RO)
+        GlobalVar.o (+RO)
+        KeyScanLCD.o (+RO)
+        BG_Opening.o (+RO)
+    }
+
+    PART_ONE_RW +0x0
+    {
+; The object codes that don't have any RW section are marked to prevent linker warning.
+; If you modify any code below, make sure to check these configuration again.
+; Standard C library
+;        *.l (+RW)
+; Startup code
+        DATKER.o (+RW)
+;        InitCLibMMU.o (+RW)
+        KerInit.o (+RW)
+;        Loader.o (+RW)
+;        CopyRest.o (+RW)
+        SysCfg.o (+RW)
+;        Main.o (+RW)
+        OSCommon.o (+RW)
+;        StartKer.o (+RW)
+        SystemInit.o (+RW)
+;        SystemTask.o (+RW)
+;        GPIOMapping.o (+RW)
+; Kernel
+;        IntHnder.o (+RW)
+;        Kcenque.o (+RW)
+;        KCHGPTY.o (+RW)
+;        KCHK_FLG.o (+RW)
+;        KCLR_FLG.o (+RW)
+;        KCSUSPD.o (+RW)
+;        Kdef_int.o (+RW)
+;        Kdis_int.o (+RW)
+;        Kena_int.o (+RW)
+;        ker.o (+RW)
+        KerVerInfo.o (+RW)
+;        KEXT_TSK.o (+RW)
+;        KGET_BLFSIZ.o (+RW)
+;        KGET_TID.o (+RW)
+;        KICR_FLG.o (+RW)
+;        KICR_MBX.o (+RW)
+;        KICR_MPF.o (+RW)
+;        KICR_SEM.o (+RW)
+;        KICR_TSK.o (+RW)
+;        KINI_FLG.o (+RW)
+;        KINI_MBX.o (+RW)
+;        KINI_MPF.o (+RW)
+;        KINI_SEM.o (+RW)
+;        KINI_TCB.o (+RW)
+;        KREL_BLF.o (+RW)
+;        KRSM_TSK.o (+RW)
+;        KSET_FLG.o (+RW)
+;        KSIG_SEM.o (+RW)
+;        KSND_MSG.o (+RW)
+;        KSRESUM.o (+RW)
+;        KSTA_TSK.o (+RW)
+;        KSUS_TSK.o (+RW)
+;        KTCV_MSG.o (+RW)
+;        KTER_TSK.o (+RW)
+;        KTGT_BLF.o (+RW)
+;        KTSERVC.o (+RW)
+;        KTWI_FLG.o (+RW)
+;        KTWI_SEM.o (+RW)
+;        Scheduler.o (+RW)
+        ;KLOC_CPU.o (+RW)
+        ;KUNL_CPU.o (+RW)
+; Driver
+        DrvCommon.o (+RW)
+        Interrupt.o (+RW)
+        NAND.o (+RW)
+        NAND_PS.o (+RW)
+		nor_ps.o (+RW)
+        PStore.o (+RW)
+        PLL.o (+RW)
+        SDIOII.o (+RW)
+        xD.o (+RW)
+        Top.o (+RW)
+        FDMA.o (+RW)
+        FDMA2.o (+RW)
+;        Cache.o (+RW)
+        GPIO.o (+RW)
+        Pad.o (+RW)
+        SIF.o (+RW)
+        Uart.o (+RW)
+        Timer.o (+RW)
+        RTC.o (+RW)
+        spi.o (+RW)
+        SpiFlash.o (+RW)
+        ;ide.o	(+RW)
+        ;ide_tv.o	(+RW)
+		ide_video.o	(+RW)
+        ;ide_lib.o	(+RW)
+        ide_compat.o	(+RW)
+        RamDisk.o (+RW)
+        amba.o (+RW)
+        FileSysTskAPI.o (+RW)
+		PrimaryAPI.o	(+RW)
+		PrimaryTsk.o	(+RW)
+		SystemClock.o	(+RW)
+		DMA.o (+RW)
+		JPEG.o	(+RW)
+        TP_NVT.o (+RW)
+        Gesture.o (+RW)
+; Task
+;        INITSK.o (+RW)
+        LensCtrlTsk.o (+RW)
+        LensAPI.o (+RW)
+        LensDrv_FF.o (+RW)
+        LensMotor_PSEUDO.o (+RW)
+; Debug
+        Debug.o (+RW)
+; Utility
+        JpgEnc.o (+RW)
+        JpgDec.o (+RW)
+        JpegHeader.o (+RW)
+        JpgParseHeader.o (+RW)
+        GiantPlusGPM1050A0.o (+RW)
+        GlobalVar.o (+RW)
+        KeyScanLCD.o (+RW)
+        lz.o (+RW)
+    }
+
+    ; Part two is the logo / sound and AP used when power on
+    PART_TWO_RO +0x0
+    {
+;       JpgEnc.o (+RO)
+;       JpgDec.o (+RO)
+;       JPEG.o (+RO)
+;       JpegHeader.o (+RO)
+;       JpgParseHeader.o (+RO)
+;       AUAN04.o (+RO)
+;       DMA.o (+RO)
+;       GlobalVar.o (+RO)
+        ;Screen_160x120.o (+RO)
+        ;ShowOSDFuncs.o (+RO)
+        ;Draw_Lib.o (+RO)
+        *(+RO)
+    }
+
+    PART_TWO_RW +0x0
+    {
+;        JpgEnc.o (+RW)
+;        JpgDec.o (+RW)
+;        JPEG.o (+RW)
+;        JpegHeader.o (+RW)
+;        JpgParseHeader.o (+RW)
+;        AUAN04.o (+RW)
+;        DMA.o (+RW)
+;        GlobalVar.o (+RW)
+;        Screen_160x120.o (+RW)
+;        ShowOSDFuncs.o (+RW)
+;        Draw_Lib.o (+RW)
+         *(+RW)
+    }
+
+    ;PART_THREE_RO +0x0
+    ;{
+    ;    *(+RO)
+    ;}
+
+    ;PART_THREE_RW +0x0
+    ;{
+    ;    *(+RW)
+    ;}
+
+    LOAD_RESET 0x00A00000
+    {
+        UpdateNandReset.o (*)
+    }
+}
+
+LOAD_REGION2 +0x0
+{
+    GENERAL_ZI +0x0
+    {
+        *(+ZI)
+    }
+}

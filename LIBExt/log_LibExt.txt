@@ -1,0 +1,2 @@
+"e:\联咏项目\NT96632_Turnkey_FW_release_20130207_405_XINKE_MP_\LIBExt\LIBExt_src\SubSystem\LCDTV\TXDT270C\TXDT270C.c", line 317: Warning: C2207W: inventing 'extern int TimerDelayMs();'
+e:\联咏项目\NT96632_Turnkey_FW_release_20130207_405_XINKE_MP_\LIBExt\LIBExt_src\SubSystem\LCDTV\TXDT270C\TXDT270C.c: 1 warning, 0 errors, 0 serious errors
