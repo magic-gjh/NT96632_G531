@@ -6,6 +6,31 @@
 #include "NVTToolCommand.h"
 #include "UIMenuWndSetupRes.c"
 #include "UIMenuWndSetup.h"
+#include "PrjCfg.h"
+
+//---------------------UIMenuWndSetupCtrl Debug Definition -----------------------------
+#define _UIMENUWNDSETUP_ERROR_MSG        1
+#define _UIMENUWNDSETUP_TRACE_MSG        0
+
+#if (_UIMENUWNDSETUP_ERROR_MSG&(PRJ_DBG_LVL>=PRJ_DBG_LVL_ERR))
+#define UIMenuWndSetupErrMsg(...)            debug_msg ("^R UIMenuWndSetup: "__VA_ARGS__)
+#else
+#define UIMenuWndSetupErrMsg(...)
+#endif
+
+#if (_UIMENUWNDSETUP_TRACE_MSG&(PRJ_DBG_LVL>=PRJ_DBG_LVL_TRC))
+#define UIMenuWndSetupTraceMsg(...)          debug_msg ("^B UIMenuWndSetup: "__VA_ARGS__)
+#else
+#define UIMenuWndSetupTraceMsg(...)
+#endif
+
+//---------------------UIMenuWndSetupCtrl Global Variables -----------------------------
+
+//---------------------UIMenuWndSetupCtrl Prototype Declaration  -----------------------
+
+//---------------------UIMenuWndSetupCtrl Public API  ----------------------------------
+
+//---------------------UIMenuWndSetupCtrl Private API  ---------------------------------
 //---------------------UIMenuWndSetupCtrl Control List---------------------------
 CTRL_LIST_BEGIN(UIMenuWndSetup)
 CTRL_LIST_ITEM(UIMenuWndSetup_Panel)

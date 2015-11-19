@@ -471,7 +471,9 @@ void OpenTXDT270M(LCDSIZE *psizeDisplay)
         ide_set_shw_st();
 
 
-        ide_set_hor_timing(1, 1559, 241, 1520);
+        //ide_set_hor_timing(1, 1559, 241, 1520);
+        //ide_set_ver_timing(0, 261, 21, 260, 21, 260);
+        ide_set_hor_timing(1, 1559, 241, 1280);
         ide_set_ver_timing(0, 261, 21, 260, 21, 260);
         ide_set_interlace(0x00);
         ide_set_startfield(0x00);

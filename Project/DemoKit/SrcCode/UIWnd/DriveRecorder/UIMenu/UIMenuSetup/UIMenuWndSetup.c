@@ -475,9 +475,9 @@ INT32 UIMenuWndSetup_Setup_Menu_OnKeyEnter(VControl *pCtrl, UINT32 paramNum, UIN
         case UIMenuWndSetup_Setup_Menu_STRID_FORMAT:
             Ux_OpenWindow(&UIMenuWndSetupFormatCtrl,0);
             break;			
-        case UIMenuWndSetup_Setup_Menu_STRID_SENSOR_ROTATE:
+        /*case UIMenuWndSetup_Setup_Menu_STRID_SENSOR_ROTATE:
             Ux_OpenWindow(&UIMenuWndSetupImageRotateCtrl,0);
-            break;			
+            break;*/			
         case UIMenuWndSetup_Setup_Menu_STRID_SCEEN_SAVE:	
             Ux_OpenWindow(&UIMenuWndSetupLcdOffCtrl,0);		
 		break;

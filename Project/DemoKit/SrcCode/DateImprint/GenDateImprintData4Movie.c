@@ -35,8 +35,10 @@
 #include "UIMenuMovieSettings.h"
 #include "grph.h"
 #include "BG_Images.h"
+#include "UIMovieObj.h"
 
 extern UINT32 SP_1[12];
+extern GPSDATA gpsdata;
 
 #if (_MOVIE_DATE_STAMP_ == ENABLE)
 
@@ -505,7 +507,7 @@ static void MovieDateImprint_ResetParam(void)
     gDrawYoffset=0;
     gDrawUVoffset=0;
 }
-
+#if 0
 //#NT#2010/08/03#Meg Lin -begin
 //modify to use graphic engine
 void MovieDateImprint_CopyData(UINT32 yAddr, UINT32 cbAddr, UINT32 crAddr, UINT32 lineY, UINT32 imgWidth)
@@ -728,6 +730,221 @@ void MovieDateImprint_CopyData(UINT32 yAddr, UINT32 cbAddr, UINT32 crAddr, UINT3
 //#NT#2010/08/03#Meg Lin -end
 }
 //#NT#2010/07/30#Meg Lin -end
+#else
+void MovieDateImprint_CopyData(UINT32 yAddr, UINT32 cbAddr, UINT32 crAddr, UINT32 lineY, UINT32 imgWidth)
+{
+    DATEDRAW_INFO   DrawInfo;
+    RTC_DATE        CurDate;
+    RTC_TIME        CurTime;
+    DATEDRAW_COPYINFO copyinfo;
+    UINT32  y, x;
+    UINT8   backColor = 0x01;
+    UINT16  uwUVData;
+    UINT32  uiSize;
+
+    if ((g_uiMovieDateStampSetup & STAMP_SWITCH_MASK) == STAMP_OFF)
+    {
+        return;
+    }
+
+    x = g_MovieStampPos.uiX;
+    y = g_MovieStampPos.uiY;
+
+    CurDate = rtc_getDate();
+    CurTime = rtc_getTime();
+
+	
+    if (gDrawType == DATEDRAW_TYPE_422)
+    {
+        if (gDrawYoffset == 0)
+        {
+            gDrawYoffset = lineY*y + x;
+            gDrawUVoffset = gDrawYoffset/2;
+        }
+        DrawInfo.lineOffsetY = lineY;
+        DrawInfo.lineOffsetUV = lineY/2;
+    }
+    else //420uv
+    {
+        if (gDrawYoffset == 0)
+        {
+            gDrawYoffset = lineY*y + x;
+            gDrawUVoffset= lineY*y/2+x;
+        }
+        DrawInfo.lineOffsetY = imgWidth;
+        DrawInfo.lineOffsetUV = imgWidth;
+    }
+
+    if (gCurTime.s.second != CurTime.s.second)
+    {
+        DrawInfo.yAddr = gDrawStrYAddr;
+        DrawInfo.cbAddr = gDrawStrUAddr;
+        DrawInfo.crAddr = gDrawStrVAddr;
+        DrawInfo.type = gDrawType;
+        gCurTime.s.second = CurTime.s.second;
+    
+        // Prepare date-time string
+        if ((g_uiMovieDateStampSetup & STAMP_DATE_TIME_MASK) == STAMP_DATE_TIME)
+        {
+            switch (g_uiMovieDateStampSetup & STAMP_DATE_FORMAT_MASK)
+            {
+            case STAMP_DD_MM_YY:
+		   if(GPSDataInputFlag == TRUE){
+                sprintf(g_cMovieDateStampStr, "%02d/%02d/%04d %02d:%02d:%02d  Speed: %f km/h", CurDate.s.day, CurDate.s.month, CurDate.s.year, 
+					CurTime.s.hour, CurTime.s.minute, CurTime.s.second,gpsdata.rmcinfo.Speed);}
+		   else{
+                sprintf(g_cMovieDateStampStr, "%02d/%02d/%04d %02d:%02d:%02d", CurDate.s.day, CurDate.s.month, CurDate.s.year, CurTime.s.hour, CurTime.s.minute, CurTime.s.second);
+			}		   	
+                break;
+            case STAMP_MM_DD_YY:
+		   if(GPSDataInputFlag == TRUE){				
+                sprintf(g_cMovieDateStampStr, "%02d/%02d/%04d %02d:%02d:%02d  Speed: %f km/h", CurDate.s.month, CurDate.s.day, CurDate.s.year, 
+					CurTime.s.hour, CurTime.s.minute, CurTime.s.second,gpsdata.rmcinfo.Speed);}
+		   else{
+                sprintf(g_cMovieDateStampStr, "%02d/%02d/%04d %02d:%02d:%02d", CurDate.s.month, CurDate.s.day, CurDate.s.year, CurTime.s.hour, CurTime.s.minute, CurTime.s.second);
+		   	}
+                break;
+            default:
+		   if(GPSDataInputFlag == TRUE){								
+                sprintf(g_cMovieDateStampStr, "%04d/%02d/%02d %02d:%02d:%02d  Speed: %f km/h", CurDate.s.year, CurDate.s.month, CurDate.s.day, 
+					CurTime.s.hour, CurTime.s.minute, CurTime.s.second,gpsdata.rmcinfo.Speed);}
+		    else{
+                sprintf(g_cMovieDateStampStr, "%04d/%02d/%02d %02d:%02d:%02d", CurDate.s.year, CurDate.s.month, CurDate.s.day, CurTime.s.hour, CurTime.s.minute, CurTime.s.second);
+		    	}
+                break;
+            }
+        }
+        else
+        {
+	     if(GPSDataInputFlag == TRUE){			        
+            sprintf(g_cMovieDateStampStr, "%02d:%02d:%02d  Speed: %f km/h", CurTime.s.hour, CurTime.s.minute, CurTime.s.second,gpsdata.rmcinfo.Speed);}
+		else
+		{
+            sprintf(g_cMovieDateStampStr, "%02d:%02d:%02d", CurTime.s.hour, CurTime.s.minute, CurTime.s.second);
+		}
+        }
+    
+        // Set background data
+        //Perf_Open();
+        //Perf_Mark();
+        uiSize = imgWidth * gDrawFontHeight;
+        if ((g_uiMovieDateStampSetup & STAMP_BG_FORMAT_MASK) == STAMP_BG_TRANSPARENT)
+        {
+            hwmem_open();
+            hwmem_memset(gDrawStrYAddr, backColor, uiSize);
+            if (gDrawType == DATEDRAW_TYPE_422)
+            {
+                hwmem_memset(gDrawStrUAddr, backColor, uiSize / 2);
+                hwmem_memset(gDrawStrVAddr, backColor, uiSize / 2);
+            }
+            else
+            {
+                hwmem_memset(gDrawStrUAddr, backColor, uiSize / 2);
+            }
+            hwmem_close();
+        }
+        else
+        {
+            hwmem_open();
+            hwmem_memset(gDrawStrYAddr, g_MovieStampColorBg.uiY, uiSize);
+            if (gDrawType == DATEDRAW_TYPE_422)
+            {
+                hwmem_memset(gDrawStrUAddr, g_MovieStampColorBg.uiCB, uiSize / 2);
+                hwmem_memset(gDrawStrVAddr, g_MovieStampColorBg.uiCR, uiSize / 2);
+            }
+            else
+            {
+                uwUVData = ((UINT16)g_MovieStampColorBg.uiCR << 8) | g_MovieStampColorBg.uiCB;
+                hwmem_memset16(gDrawStrUAddr, uwUVData, uiSize / 2);
+            }
+            hwmem_close();
+        }
+        //debug_err((">> time1: %d us\r\n", Perf_GetDuration()));
+        //Perf_Close();
+    
+        // Draw string by getting data from date stamp font
+        //Perf_Open();
+        //Perf_Mark(); 
+        gDrawStrwidth = DrawStr_ToMem(&g_cMovieDateStampStr[0], &DrawInfo);
+        //debug_err((">> time2: %d us\r\n", Perf_GetDuration()));
+        //Perf_Close();
+    }
+
+    // copy data from date stamp draw buffer to image buffer
+    //Perf_Open();
+    //Perf_Mark();
+    grph_open();
+
+    // Handle Y
+    grph_setImg1(yAddr+gDrawYoffset, lineY, gDrawFontHeight, gDrawStrwidth);
+    grph_setImg2(gDrawStrYAddr, imgWidth);
+    if ((g_uiMovieDateStampSetup & STAMP_BG_FORMAT_MASK) == STAMP_BG_TRANSPARENT)
+        grph_setAOP(FALSE, GRPH_DST_1, GRPH_AOP_COLOR_EQ, backColor);
+    else
+        grph_setAOP(FALSE, GRPH_DST_1, GRPH_AOP_COLOR_LE, 0x00);
+
+    if (gDrawType == DATEDRAW_TYPE_422)
+    {
+        // Handle Cb/Cr (YUV422)
+        grph_setImg1(cbAddr+gDrawUVoffset, lineY/2, gDrawFontHeight, gDrawStrwidth/2);
+        grph_setImg2(gDrawStrUAddr, imgWidth/2);
+        if ((g_uiMovieDateStampSetup & STAMP_BG_FORMAT_MASK) == STAMP_BG_TRANSPARENT)
+            grph_setAOP(FALSE, GRPH_DST_1, GRPH_AOP_COLOR_EQ, backColor);
+        else
+            grph_setAOP(FALSE, GRPH_DST_1, GRPH_AOP_COLOR_LE, 0x00);
+
+        grph_setImg1(crAddr+gDrawUVoffset, lineY/2, gDrawFontHeight, gDrawStrwidth/2);
+        grph_setImg2(gDrawStrVAddr, imgWidth/2);
+        if ((g_uiMovieDateStampSetup & STAMP_BG_FORMAT_MASK) == STAMP_BG_TRANSPARENT)
+            grph_setAOP(FALSE, GRPH_DST_1, GRPH_AOP_COLOR_EQ, backColor);
+        else
+            grph_setAOP(FALSE, GRPH_DST_1, GRPH_AOP_COLOR_LE, 0x00);
+    }
+    else
+    {
+        // Handle Cb/Cr (YUV420, UV pack)
+        grph_setImg1(cbAddr+gDrawUVoffset, lineY, gDrawFontHeight/2, gDrawStrwidth);
+        grph_setImg2(gDrawStrUAddr, imgWidth);
+        if ((g_uiMovieDateStampSetup & STAMP_BG_FORMAT_MASK) == STAMP_BG_TRANSPARENT)
+            grph_setAOP(FALSE, GRPH_DST_1, GRPH_AOP_COLOR_EQ, backColor);
+        else
+            grph_setAOP(FALSE, GRPH_DST_1, GRPH_AOP_COLOR_LE, 0x00);
+    }
+
+#if (_WATERMARK_EMBEDDED_ == ENABLE)
+    // embedded watermark logo
+    // Handle Y (YUV420, UV pack)
+    grph_setImg1((UINT32)g_ucWaterMarkY, 64, 64, 64);
+    grph_setImg2(yAddr, lineY);
+    grph_setAOP(FALSE, GRPH_DST_2, GRPH_AOP_A_COPY, 0);
+
+    // Handle Cb/Cr (YUV420, UV pack)
+    if (gDrawType == DATEDRAW_TYPE_422)
+    {
+        //Cb
+        grph_setImg1((UINT32)g_ucWaterMarkUVPack, 32, 64, 32);
+        grph_setImg2((yAddr+4096), lineY/2);
+        grph_setAOP(FALSE, GRPH_DST_2, GRPH_AOP_A_COPY, 0);
+        //Cr
+        grph_setImg1((UINT32)(g_ucWaterMarkUVPack+2048), 32, 64, 32);
+        grph_setImg2((yAddr+6144), lineY/2);
+        grph_setAOP(FALSE, GRPH_DST_2, GRPH_AOP_A_COPY, 0);
+    } else {
+        grph_setImg1((UINT32)g_ucWaterMarkUVPack, 64, 32, 64);
+        grph_setImg2(cbAddr, lineY);
+        grph_setAOP(FALSE, GRPH_DST_2, GRPH_AOP_A_COPY, 0);
+    }
+#endif
+
+    grph_close();
+    //debug_err((">> time3: %d us\r\n", Perf_GetDuration()));
+    //Perf_Close();
+//#NT#2010/08/03#Meg Lin -end
+}
+//#NT#2010/07/30#Meg Lin -end
+
+
+#endif
 
 #endif
 //@}

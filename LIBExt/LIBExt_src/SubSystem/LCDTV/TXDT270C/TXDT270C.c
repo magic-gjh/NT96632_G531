@@ -312,15 +312,15 @@ debug_err((">>>>>Init LCD mode %d\r\n",LCD_DeviceObj.uiLCDMode));
         ////sendtoAUDN01LCDreg(0xB3,0x01);////?
         ////sendtoAUDN01LCDreg(0xB5,0x06);////?
 	#endif
-	#if 1
-	sendtoAUDN01LCDreg(0x05,0x40);
-	TimerDelayMs(200);
-	sendtoAUDN01LCDreg(0x2b,0x01);  // bit[0] 0: standby, 1:normal mode
-	TimerDelayMs(200);
+	#if 0
+	sendtoAUDN01LCDreg(0x05,0x1e);
+	TimerDelayMs(150);
+	sendtoAUDN01LCDreg(0x05,0x5e);
+	TimerDelayMs(150);
 	//sendtoToppolyLCDregWriter(0x04,0x27);//2b);//0b );  //
 	sendtoAUDN01LCDreg(0x04,0x1b);//2b);//0b );  //
 
-	sendtoAUDN01LCDreg(0x05,0x7e);
+	sendtoAUDN01LCDreg(0x2b,0x01);  // bit[0] 0: standby, 1:normal mode
 
 	sendtoAUDN01LCDreg(0x03,0x40);// brightness  
 	
@@ -331,9 +331,9 @@ debug_err((">>>>>Init LCD mode %d\r\n",LCD_DeviceObj.uiLCDMode));
 	sendtoAUDN01LCDreg(0x12,0x5f);
 	sendtoAUDN01LCDreg(0x12,0xee);
 	sendtoAUDN01LCDreg(0x12,0x00);
-	sendtoAUDN01LCDreg(0x0b,0x01 );  // bit1, 1: set vcom DC control by register 01h
+	//sendtoAUDN01LCDreg(0x0b,0x01 );  // bit1, 1: set vcom DC control by register 01h
 
-	sendtoAUDN01LCDreg(0x00,0x09);//0f );  // bit0~3, set vcom_AC level//
+	sendtoAUDN01LCDreg(0x00,0x08);//0f );  // bit0~3, set vcom_AC level//
 
 	sendtoAUDN01LCDreg(0x06,0x15);  // bit0~4, set vertical blank
                                             // bit5~6, set DC-DC feedback threshold voltage
@@ -352,17 +352,49 @@ debug_err((">>>>>Init LCD mode %d\r\n",LCD_DeviceObj.uiLCDMode));
 	sendtoAUDN01LCDreg(0x19,0x01);//00 );  // gamma parameter
 	sendtoAUDN01LCDreg(0x1a,0x20);//10 );  // gamma parameter
 
-	sendtoAUDN01LCDreg(0x0d,0x38);
+	sendtoAUDN01LCDreg(0x0d,0x38);  //对比度
+
     #else
-	sendtoAUDN01LCDreg(0x05,0x34);
-	sendtoAUDN01LCDreg(0x0c,0x06);
-	sendtoAUDN01LCDreg(0x00,0x07);
-	sendtoAUDN01LCDreg(0x06,0x95);
+	sendtoAUDN01LCDreg(0x05,0x40);
+	TimerDelayMs(200);
+	sendtoAUDN01LCDreg(0x2b,0x01);  // bit[0] 0: standby, 1:normal mode
+	TimerDelayMs(200);
+	//sendtoToppolyLCDregWriter(0x04,0x27);//2b);//0b );  //
+	sendtoAUDN01LCDreg(0x04,0x1b);//2b);//0b );  //
+
+	sendtoAUDN01LCDreg(0x05,0x7e);
+
+	sendtoAUDN01LCDreg(0x03,0x40);// brightness  
+	
+	sendtoAUDN01LCDreg(0x01,0x85);//8a);//85);//80);//8f );  // bit0~5, set vcom_DC level
+
+	sendtoAUDN01LCDreg(0x0b,0x80);  // bit1, 1: set vcom DC control by register 01h
+	sendtoAUDN01LCDreg(0x12,0xa0);
+	sendtoAUDN01LCDreg(0x12,0x5f);
+	sendtoAUDN01LCDreg(0x12,0xee);
+	sendtoAUDN01LCDreg(0x12,0x00);
+	//sendtoAUDN01LCDreg(0x0b,0x01 );  // bit1, 1: set vcom DC control by register 01h
+
+	sendtoAUDN01LCDreg(0x00,0x0a);//0f );  // bit0~3, set vcom_AC level//
+
+	sendtoAUDN01LCDreg(0x06,0x15);  // bit0~4, set vertical blank
+                                            // bit5~6, set DC-DC feedback threshold voltage
+	//sendtoAUDN01LCDreg(0x07,0xf1);//31 );  // set horizontal blank, default 46h(input RGB mode)
 	sendtoAUDN01LCDreg(0x07,0x46);
-	sendtoAUDN01LCDreg(0x04,0x10);
-	sendtoAUDN01LCDreg(0x2f,0x71);
-	sendtoAUDN01LCDreg(0x2b,0x01);
-	TimerDelayMs(10);
+	sendtoAUDN01LCDreg(0x08,0x00);
+	sendtoAUDN01LCDreg(0x0E,0x45);//10 );38
+	sendtoAUDN01LCDreg(0x0F,0x45);//10 );38
+	sendtoAUDN01LCDreg(0x10,0x45);//10 );38
+	sendtoAUDN01LCDreg(0x11,0x45);//10 );40
+
+	// set gamma
+	sendtoAUDN01LCDreg(0x16,0x00);  // set gamma, default 04h auto set to gamma 2.2
+	sendtoAUDN01LCDreg(0x17,0x77);  // gamma parameter
+	sendtoAUDN01LCDreg(0x18,0x55);//33 );  // gamma parameter
+	sendtoAUDN01LCDreg(0x19,0x01);//00 );  // gamma parameter
+	sendtoAUDN01LCDreg(0x1a,0x20);//10 );  // gamma parameter
+
+	sendtoAUDN01LCDreg(0x0d,0x38);  //对比度
 	#endif
         break;
     case LCD_MODE_YUV:
@@ -467,6 +499,7 @@ debug_err((">>>>>Open LCD mode %d\r\n",LCD_DeviceObj.uiLCDMode));
 
         break;
     case LCD_MODE_RGBD:
+		#if 0
         // Top control for lcd type
         pinmux_select_lcd(PINMUX_LCD_SERIAL_RGB_8BIT);
 
@@ -479,7 +512,7 @@ debug_err((">>>>>Open LCD mode %d\r\n",LCD_DeviceObj.uiLCDMode));
         pll_enableClock(IDE2_CLK);
 
         // Wait for Power Stable
-        delay(0x10000);
+        delay(0x800000);
 
         ide_set_icst(0);
         ide_setICST(TRUE, CST_YCBCR2RGB);////
@@ -517,6 +550,58 @@ debug_err((">>>>>Open LCD mode %d\r\n",LCD_DeviceObj.uiLCDMode));
         psizeDisplay -> uiHeight = AU_DN01_UPS052_Buf_height;
         psizeDisplay -> uiWinWidth = AU_DN01_UPS052_Win_width;
         psizeDisplay -> uiWinHeight = AU_DN01_UPS052_Win_height;
+		#else
+		// Top control for lcd type
+        pinmux_select_lcd(PINMUX_LCD_SERIAL_RGB_8BIT);
+
+        // Set DCLK
+        uiClockDiv = (float)LCD_DeviceObj.uiIDESrcCLK/(float)LCD_DeviceObj.fIDEDstCLK/(float)2;
+        pll_setClockRate(PLL_CLKSEL_IDE_CLKDIV, PLL_IDE_CLKDIV(uiClockDiv-1));
+
+        // Enable IDE Clock
+        pll_enableClock(IDE1_CLK);
+        pll_enableClock(IDE2_CLK);
+
+        // Wait for Power Stable
+        delay(0x800000);
+
+        ide_set_icst(0);
+        ide_setICST(TRUE, CST_YCBCR2RGB);////
+        ide_set_dithering(0, 0);
+        ide_set_device(DISPLAY_DEVICE_TOPPOLY);
+        ide_set_pdir(0);
+        ide_set_odd(0);
+        ide_set_even(0);
+        ide_set_hsinv(1);
+        ide_set_vsinv(1);
+        ide_set_hvldinv(0);
+        ide_set_vvldinv(0);
+        ide_set_clkinv(1);
+        ide_set_fieldinv(0);
+        ide_set_rgbdummy(1);
+        ide_set_shw_st();
+
+        ide_set_hor_timing(0x01, 1716-1, 241, 1681);
+        ide_set_ver_timing(0x01, 0x106, 0x15, 0x105, 0x15, 0x105);
+        ide_set_interlace(0x00);
+        ide_set_startfield(0x00);
+
+        ide_set_ctrst(0x40);
+        ide_set_brt(0x00);
+        ide_set_cmults(0x40);
+        ide_set_cex(0x00);
+        ide_set_standby_signal(0x01);
+
+        ide_set_clamp(0x01);
+        ide_set_tv_powerdown(0x01);
+
+        ide_set_sif_startend(0x00, 0x00);
+
+        psizeDisplay -> uiWidth = AU_DN01_UPS052_Buf_width;
+        psizeDisplay -> uiHeight = AU_DN01_UPS052_Buf_height;
+        psizeDisplay -> uiWinWidth = AU_DN01_UPS052_Win_width;
+        psizeDisplay -> uiWinHeight = AU_DN01_UPS052_Win_height;
+		#endif
         break;
     case LCD_MODE_YUV:
     //#NT#2007/03/07#Shirley Cheng -begin

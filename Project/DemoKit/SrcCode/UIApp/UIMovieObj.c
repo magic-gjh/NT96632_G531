@@ -655,13 +655,13 @@ INT32 Get_GSensorSensitivity(void)
     switch(Get_MovieGsensorIndex())
     {
         case MOVIE_GSENSOR_HIGH:
-            return 16100;//128;// 4G
+            return 640;//128;// 4G
         case MOVIE_GSENSOR_MED:
-            return 16150;//256;// 5G
+            return 800;//256;// 5G
         case MOVIE_GSENSOR_LOW:
-            return 16200;//384; //6G 
+            return 960;//384; //6G 
         case MOVIE_GSENSOR_OFF:
-            return 30000;//no use
+            return 9000;//no use
     }
 }
 

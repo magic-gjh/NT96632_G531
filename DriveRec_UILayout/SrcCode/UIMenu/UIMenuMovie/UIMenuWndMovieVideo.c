@@ -6,6 +6,31 @@
 #include "NVTToolCommand.h"
 #include "UIMenuWndMovieVideoRes.c"
 #include "UIMenuWndMovieVideo.h"
+#include "PrjCfg.h"
+
+//---------------------UIMenuWndMovieVideoCtrl Debug Definition -----------------------------
+#define _UIMENUWNDMOVIEVIDEO_ERROR_MSG        1
+#define _UIMENUWNDMOVIEVIDEO_TRACE_MSG        0
+
+#if (_UIMENUWNDMOVIEVIDEO_ERROR_MSG&(PRJ_DBG_LVL>=PRJ_DBG_LVL_ERR))
+#define UIMenuWndMovieVideoErrMsg(...)            debug_msg ("^R UIMenuWndMovieVideo: "__VA_ARGS__)
+#else
+#define UIMenuWndMovieVideoErrMsg(...)
+#endif
+
+#if (_UIMENUWNDMOVIEVIDEO_TRACE_MSG&(PRJ_DBG_LVL>=PRJ_DBG_LVL_TRC))
+#define UIMenuWndMovieVideoTraceMsg(...)          debug_msg ("^B UIMenuWndMovieVideo: "__VA_ARGS__)
+#else
+#define UIMenuWndMovieVideoTraceMsg(...)
+#endif
+
+//---------------------UIMenuWndMovieVideoCtrl Global Variables -----------------------------
+
+//---------------------UIMenuWndMovieVideoCtrl Prototype Declaration  -----------------------
+
+//---------------------UIMenuWndMovieVideoCtrl Public API  ----------------------------------
+
+//---------------------UIMenuWndMovieVideoCtrl Private API  ---------------------------------
 //---------------------UIMenuWndMovieVideoCtrl Control List---------------------------
 CTRL_LIST_BEGIN(UIMenuWndMovieVideo)
 CTRL_LIST_ITEM(UIMenuWndMovieVideo_Panel)

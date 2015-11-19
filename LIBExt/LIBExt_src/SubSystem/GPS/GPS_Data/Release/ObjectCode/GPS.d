@@ -1,5 +1,5 @@
 GPS_Data/Release/ObjectCode/GPS.o:  \
- e:/ÁªÓ½ÏîÄ¿/NT96632_Turnkey_FW_release_20130207_405_XINKE_MP_/LIBExt/LIBExt_src/SubSystem/GPS/GPS.c \
+ e:/workspace/NT96632_G531/LIBExt/LIBExt_src/SubSystem/GPS/GPS.c \
   C:/Program\ Files/ARM/ADSv1_2/INCLUDE/string.h \
   C:/Program\ Files/ARM/ADSv1_2/INCLUDE/stdio.h \
   C:/Program\ Files/ARM/ADSv1_2/INCLUDE/stdlib.h \

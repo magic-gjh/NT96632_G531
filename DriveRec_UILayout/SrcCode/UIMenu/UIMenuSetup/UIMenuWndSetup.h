@@ -24,7 +24,6 @@ UIMenuWndSetup_Title_Mode_Status_STRID_FREQUENCY,
 UIMenuWndSetup_Title_Mode_Status_STRID_TV_MODE,
 UIMenuWndSetup_Title_Mode_Status_STRID_DEFAULT_SETTING,
 UIMenuWndSetup_Title_Mode_Status_STRID_FORMAT,
-UIMenuWndSetup_Title_Mode_Status_STRID_SENSOR_ROTATE,
 UIMenuWndSetup_Title_Mode_Status_STRID_SCEEN_SAVE,
 UIMenuWndSetup_Title_Mode_Status_STRID_VERSION,
 UIMenuWndSetup_Title_Mode_Status_MAX
@@ -65,10 +64,10 @@ UIMenuWndSetup_Setup_Menu_STRID_FREQUENCY,
 UIMenuWndSetup_Setup_Menu_STRID_TV_MODE,
 UIMenuWndSetup_Setup_Menu_STRID_DEFAULT_SETTING,
 UIMenuWndSetup_Setup_Menu_STRID_FORMAT,
-UIMenuWndSetup_Setup_Menu_STRID_SENSOR_ROTATE,
 UIMenuWndSetup_Setup_Menu_STRID_SCEEN_SAVE,
 UIMenuWndSetup_Setup_Menu_STRID_VERSION,
 UIMenuWndSetup_Setup_Menu_MAX
 }UIMenuWndSetup_Setup_Menu_Setting;
 
+//---------------------UIMenuWndSetupCtrl User Export---------------------------
 #endif

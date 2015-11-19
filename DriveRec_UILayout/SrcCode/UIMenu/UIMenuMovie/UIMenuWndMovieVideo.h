@@ -50,4 +50,5 @@ UIMenuWndMovieVideo_Video_Menu_STRID_GSENSOR_SENSITIVITY,
 UIMenuWndMovieVideo_Video_Menu_MAX
 }UIMenuWndMovieVideo_Video_Menu_Setting;
 
+//---------------------UIMenuWndMovieVideoCtrl User Export---------------------------
 #endif

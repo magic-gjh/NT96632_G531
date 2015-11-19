@@ -484,7 +484,7 @@ void GPSRec_NMEAParser(CHAR *NMEA_str, UINT32 Len, NMEATYPE NMEAtype)
             RMCInfo.NSInd =     NSInd;
             RMCInfo.Longitude = Lon;
             RMCInfo.EWInd =     EWInd;
-            RMCInfo.Speed =     Speed;
+            RMCInfo.Speed =     (Speed * 1.852);
             RMCInfo.Angle =     Angle;
             RMCInfo.Day =       Date / 10000;
             RMCInfo.Month =     (Date % 10000) / 100;

@@ -1,5 +1,5 @@
 GSENSOR_Data/Release/ObjectCode/DMARD07.o:  \
- e:/联咏项目/NT96632_Turnkey_FW_release_20130207_405_XINKE_MP_/LIBExt/LIBExt_src/SubSystem/Gsensor/DMARD07/DMARD07.c \
+ e:/workspace/NT96632_G531/LIBExt/LIBExt_src/SubSystem/Gsensor/DMARD07/DMARD07.c \
   C:/Program\ Files/ARM/ADSv1_2/INCLUDE/stdio.h \
   ../../../../Include/Subsystem/Gsensor/Gsensor.h \
   ../../../../Include/Type.h ../../../../Include/StdCMac.h \
@@ -24,7 +24,7 @@ GSENSOR_Data/Release/ObjectCode/DMARD07.o:  \
   ../../../../Include/Subsystem/Debug/Debug.h \
   ../../../../Include/Driver/IO/Gpio.h \
   ../../../../Include/Driver/IO/spi.h \
-  e:/联咏项目/NT96632_Turnkey_FW_release_20130207_405_XINKE_MP_/LIBExt/LIBExt_src/SubSystem/Gsensor/DMARD07/DMARD07.h \
+  e:/workspace/NT96632_G531/LIBExt/LIBExt_src/SubSystem/Gsensor/DMARD07/DMARD07.h \
   ../../../../Include/Driver/IO/Gpio.h
 
 C:/Program\ Files/ARM/ADSv1_2/INCLUDE/stdio.h:
@@ -99,6 +99,6 @@ C:/Program\ Files/ARM/ADSv1_2/INCLUDE/string.h:
 
 ../../../../Include/Driver/IO/spi.h:
 
-e:/联咏项目/NT96632_Turnkey_FW_release_20130207_405_XINKE_MP_/LIBExt/LIBExt_src/SubSystem/Gsensor/DMARD07/DMARD07.h:
+e:/workspace/NT96632_G531/LIBExt/LIBExt_src/SubSystem/Gsensor/DMARD07/DMARD07.h:
 
 ../../../../Include/Driver/IO/Gpio.h:

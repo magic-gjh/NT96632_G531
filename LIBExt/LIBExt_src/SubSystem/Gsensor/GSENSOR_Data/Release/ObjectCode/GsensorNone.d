@@ -1,5 +1,5 @@
 GSENSOR_Data/Release/ObjectCode/GsensorNone.o:  \
- e:/联咏项目/NT96632_Turnkey_FW_release_20130207_405_XINKE_MP_/LIBExt/LIBExt_src/SubSystem/Gsensor/None/GsensorNone.c \
+ e:/workspace/NT96632_G531/LIBExt/LIBExt_src/SubSystem/Gsensor/None/GsensorNone.c \
   C:/Program\ Files/ARM/ADSv1_2/INCLUDE/stdio.h \
   ../../../../Include/Subsystem/Gsensor/Gsensor.h \
   ../../../../Include/Type.h ../../../../Include/StdCMac.h \
@@ -24,7 +24,7 @@ GSENSOR_Data/Release/ObjectCode/GsensorNone.o:  \
   ../../../../Include/Subsystem/Debug/Debug.h \
   ../../../../Include/Driver/IO/Gpio.h \
   ../../../../Include/Driver/IO/spi.h \
-  e:/联咏项目/NT96632_Turnkey_FW_release_20130207_405_XINKE_MP_/LIBExt/LIBExt_src/SubSystem/Gsensor/None/GsensorNone.h
+  e:/workspace/NT96632_G531/LIBExt/LIBExt_src/SubSystem/Gsensor/None/GsensorNone.h
 
 C:/Program\ Files/ARM/ADSv1_2/INCLUDE/stdio.h:
 
@@ -98,4 +98,4 @@ C:/Program\ Files/ARM/ADSv1_2/INCLUDE/string.h:
 
 ../../../../Include/Driver/IO/spi.h:
 
-e:/联咏项目/NT96632_Turnkey_FW_release_20130207_405_XINKE_MP_/LIBExt/LIBExt_src/SubSystem/Gsensor/None/GsensorNone.h:
+e:/workspace/NT96632_G531/LIBExt/LIBExt_src/SubSystem/Gsensor/None/GsensorNone.h:

@@ -111,7 +111,7 @@ static void SysInit_InitEssentialHW(void)
     //#NT#2009/09/25#Jeffery Chuang -begin
     //UINT32 reg0, reg1;
     //#NT#2009/09/25#Jeffery Chuang -end
-    //GPIOMap_Init();
+    GPIOMap_Init();
     
     // Initialize driver, must be executed before any driver open API
     drv_init();

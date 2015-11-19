@@ -1,5 +1,5 @@
 GSENSOR_Data/Release/ObjectCode/Gsensor.o:  \
- e:/ÁªÓ½ÏîÄ¿/NT96632_Turnkey_FW_release_20130207_405_XINKE_MP_/LIBExt/LIBExt_src/SubSystem/Gsensor/Gsensor.c \
+ e:/workspace/NT96632_G531/LIBExt/LIBExt_src/SubSystem/Gsensor/Gsensor.c \
   ../../../../Include/OSCommon.h ../../../../Include/Type.h \
   ../../../../Include/StdCMac.h ../../../../Include/Kernel/mIType.h \
   ../../../../Include/Kernel/Kernel.h ../../../../Include/Type.h \

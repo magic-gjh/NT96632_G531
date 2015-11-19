@@ -22,7 +22,7 @@
 //#define DSC_FW_VERSION_STR          "DVR405.20141218.V0.01"
 //#define DSC_FW_VERSION_STR          "DVR405.20141222.V0.03"
 //#define DSC_FW_VERSION_STR          "DVR405.20150626.V0.03"
-#define DSC_FW_VERSION_STR          "G531.20151015.V0.2"
+#define DSC_FW_VERSION_STR          "G531.20151113.V0.2"
 
 
 #endif

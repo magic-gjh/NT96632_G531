@@ -73,12 +73,12 @@ UINT32 KeyADC_GetKey(void)
     }
     else if ((ad1 > (KEY_ADC_LEVEL_3 - ADC_ERR)) && (ad1 < (KEY_ADC_LEVEL_3 + ADC_ERR)))
 	{
-        key1 = FLGKEY_UP;
+        key1 = FLGKEY_DOWN;
         //debug_err(("KEY DOWN\r\n"));
     }
     else if ((ad1 > (KEY_ADC_LEVEL_4 - ADC_ERR)) && (ad1 < (KEY_ADC_LEVEL_4 + ADC_ERR)))
 	{
-        key1 = FLGKEY_DOWN;
+        key1 = FLGKEY_UP;
         //debug_err(("KEY ENTER\r\n"));
     }
     else if ((ad1 > (KEY_ADC_LEVEL_5 - ADC_ERR)) && (ad1 < (KEY_ADC_LEVEL_5 + ADC_ERR)))

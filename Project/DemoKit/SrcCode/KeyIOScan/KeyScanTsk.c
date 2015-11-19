@@ -937,7 +937,6 @@ void KeyScanACCDet(void)
     else
     {
         uiACC12VCurSts =  ACC12V_UNPLUG;
-		KeyScan_PoweroffFlow();
     }
 
     //debug_err(("uiACC12VPreSts %x uiACC12VCurSts %x  \r\n", uiACC12VPreSts, uiACC12VCurSts));
@@ -1069,11 +1068,22 @@ void KeyScan_DetGsensor()
     }
 	else if(gsensor_gettype()==GSENSOR_DA380)
 	{
+		Counter++;
+	    if(Counter < 20)
+	    {
+		 	return;
+	    }
+		
 		gsensor_GetData(&GS_Data);
 		if(first_powron ==FALSE)
 		{
 	    	gsensor_trig=Get_GSensorSensitivity();
 			//debug_err(("gsensor  ...%d,%d,%d,%d\r\n",abs(GS_Data.Axis.Xacc-X),abs(GS_Data.Axis.Yacc-Y),abs(GS_Data.Axis.Zacc-Z),gsensor_trig));
+			if((abs(GS_Data.Axis.Xacc-X)>10000)||(abs(GS_Data.Axis.Yacc-Y)>10000)
+					||(abs(GS_Data.Axis.Zacc-Z)>10000))
+			{
+				return;	
+			}
 	        if((abs(GS_Data.Axis.Xacc-X)>gsensor_trig)||(abs(GS_Data.Axis.Yacc-Y)>gsensor_trig)
 					||(abs(GS_Data.Axis.Zacc-Z)>gsensor_trig))
 	        {
@@ -1095,8 +1105,10 @@ void KeyScan_DetGsensor()
 			}
 	}
     else
-    {}
-    }
+    {
+
+	}
+    }	
 }
 
 void KeyScan_DetGSPNAVI(void)

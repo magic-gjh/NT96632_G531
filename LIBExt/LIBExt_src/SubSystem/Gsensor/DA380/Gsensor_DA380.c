@@ -8,6 +8,39 @@
 #define IDC_SADDR_G_Sensor_R 0x4f
 static int g_GSensorSensitivity;
 
+int rotate(char *rot,char *upd,short x,short y ,short z)
+{
+    static char old_rot = 0;
+
+   *rot = old_rot;
+
+    if(y > 200&&abs(z) <120&&abs(x)< 120)
+    {
+        *rot = 0;
+    }
+    if(x > 200&&abs(z) <120&&abs(y)< 120)
+    {
+        *rot = 1;
+    }
+    if(-y > 200&&abs(z) <120&&abs(x)< 120)
+    {
+        *rot = 2;
+    }
+    if(-x > 200&&abs(z) <120&&abs(y)< 120)
+    {
+        *rot = 3;
+    }
+    if(old_rot != *rot)
+    {
+        old_rot = *rot;
+        *upd = 1;
+    }
+    else
+    {
+        *upd = 0;
+    }
+}
+
 void DA380_OpenInterface(void)
 {
 
@@ -126,8 +159,8 @@ BOOL DA380_GsensorInit(void)
 	res =  mir3da_register_mask_write(NSA_REG_SPI_I2C, 0x24, 0x24);
 
 	delay(5);
-
-	res |= mir3da_register_mask_write(NSA_REG_G_RANGE, 0x03, 0x01);
+#if 0
+	res |= mir3da_register_mask_write(NSA_REG_G_RANGE, 0x03, 0x02);
 	res |= mir3da_register_mask_write(NSA_REG_G_RANGE, 0x0C, 0x00);
 	res |= mir3da_register_mask_write(NSA_REG_POWERMODE_BW, 0xFF, 0x5E);
 	res |= mir3da_register_mask_write(NSA_REG_ODR_AXIS_DISABLE, 0xFF, 0x06);
@@ -139,6 +172,20 @@ BOOL DA380_GsensorInit(void)
 	res |= mir3da_register_mask_write(NSA_REG_ENGINEERING_MODE, 0xFF, 0x69);
 	res |= mir3da_register_mask_write(NSA_REG_ENGINEERING_MODE, 0xFF, 0xBD);
 	res |= mir3da_register_mask_write(NSA_REG_SWAP_POLARITY, 0xFF, 0x00);
+#else
+	res |= mir3da_register_mask_write(NSA_REG_G_RANGE, 0x03, 0x02);
+    res |= mir3da_register_mask_write(NSA_REG_POWERMODE_BW, 0xFF, 0x1E);
+    res |= mir3da_register_mask_write(NSA_REG_ODR_AXIS_DISABLE, 0xFF, 0x07);
+       
+    res |= mir3da_register_mask_write(NSA_REG_INT_LATCH, 0x8F, 0x85);
+
+    res |= mir3da_register_mask_write(NSA_REG_INT_PIN_CONFIG, 0x0F, 0x00);
+
+       
+    res |= mir3da_register_mask_write(NSA_REG_ENGINEERING_MODE, 0xFF, 0x83);
+    res |= mir3da_register_mask_write(NSA_REG_ENGINEERING_MODE, 0xFF, 0x69);
+    res |= mir3da_register_mask_write(NSA_REG_ENGINEERING_MODE, 0xFF, 0xBD);
+#endif
 
 	return res;	    	
 }
@@ -158,11 +205,12 @@ void DA380_ReadInterupt(void)
 {
 	int   res = 0;
 
-	res = mir3da_register_write(NSA_REG_INTERRUPT_SETTINGS1,0x03);
-	res = mir3da_register_write(NSA_REG_ACTIVE_DURATION,0x03 );
-	res = mir3da_register_write(NSA_REG_ACTIVE_THRESHOLD,0x1B );	
-	res = mir3da_register_write(NSA_REG_INTERRUPT_MAPPING1,0x04 );
+	 res = mir3da_register_write(NSA_REG_INTERRUPT_SETTINGS1,0x03);
+     res = mir3da_register_write(NSA_REG_ACTIVE_DURATION,0x01 );// 0x03
+     res = mir3da_register_write(NSA_REG_ACTIVE_THRESHOLD,0x10 );////DEBUG//38//DF  //¨¦¨¨??GSensor¦Ì?¨¢¨¦???¨¨
+     res = mir3da_register_write(NSA_REG_INTERRUPT_SETTINGS2,0xA0); // interuppt plus  keep 1 second
 	//res = mir3da_register_write(NSA_REG_INTERRUPT_MAPPING3,0x04 );
+	 res = mir3da_register_write(NSA_REG_INTERRUPT_MAPPING1,0x04 );
 
 }
 
@@ -206,8 +254,9 @@ void DA380_GetGsensorData(Gsensor_Data *GS_Data)
 /*return value: 0: is ok    other: is failed*/
 void DA380_GetGsensorData(Gsensor_Data *GS_Data)
 {
-    short   tmp_data[3] = {0};
-
+    unsigned short   tmp_data[3] = {0};
+	char upd = 0, rot = 0;
+		
     if (mir3da_register_read_continuously(NSA_REG_ACC_X_LSB, 6, (unsigned char *)tmp_data) != 0) {
        // return 0;
     }
@@ -215,6 +264,8 @@ void DA380_GetGsensorData(Gsensor_Data *GS_Data)
     GS_Data->Axis.Xacc = (unsigned short)(tmp_data[0] >> 2)&0x3fff;
     GS_Data->Axis.Yacc = (unsigned short)(tmp_data[1] >> 2)&0x3fff;
     GS_Data->Axis.Zacc = (unsigned short)(tmp_data[2] >> 2)&0x3fff;
+
+	rotate(&rot,&upd,GS_Data->Axis.Xacc,GS_Data->Axis.Yacc,GS_Data->Axis.Zacc);
 
      //debug_msg("oringnal x y z %d %d %d\r\n",GS_Data->Axis.Xacc,GS_Data->Axis.Yacc,GS_Data->Axis.Zacc); 	
 

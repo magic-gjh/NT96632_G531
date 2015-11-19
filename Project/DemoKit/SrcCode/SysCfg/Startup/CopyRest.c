@@ -166,7 +166,7 @@ void CopyRest_RunPartOne(void)
     //#NT#2008/01/04#Chris Hsu -end
 
     // Display poweron logo here
-    if (FALSE == UI_ShowLogoFile(PS_BG_LOGO))
+    if (1)//(FALSE == UI_ShowLogoFile(PS_BG_LOGO))
     {
         SysInit_DisplaySplashScreen(LOGO_STARTUP,0,0);
     }

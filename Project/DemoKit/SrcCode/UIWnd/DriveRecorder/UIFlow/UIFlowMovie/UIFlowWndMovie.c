@@ -1246,15 +1246,16 @@ static void UIFlowWndMovie_Update_Info(void)
 #endif
 //----------------------jack lan begin-----------------------------------------
 		  
-    sprintf(SP_buf, "SP: %d%d%d%d.%d%d%d%d.%d%d%d%d",SP_1[0],SP_1[1],SP_1[2],SP_1[3],SP_1[4],SP_1[5],SP_1[6],SP_1[7],SP_1[8],
-			SP_1[9],SP_1[10],SP_1[11]);
-    UxStatic_SetData(&UIFlowWndMovie_GPSCtrl,STATIC_VALUE,Txt_Pointer(SP_buf));
+    //sprintf(SP_buf, "SP: %d%d%d%d.%d%d%d%d.%d%d%d%d",SP_1[0],SP_1[1],SP_1[2],SP_1[3],SP_1[4],SP_1[5],SP_1[6],SP_1[7],SP_1[8],
+			//SP_1[9],SP_1[10],SP_1[11]);
+    //UxStatic_SetData(&UIFlowWndMovie_GPSCtrl,STATIC_VALUE,Txt_Pointer(SP_buf));
 	
-    speed_total = ((Speed[0]<<8)&&0xff00)|(Speed[1]&&0xff);
-    speed_hi = speed_total/10;
-    speed_lo = speed_total%10;
-    sprintf(Speed_buf,"Speed: %03d.%d km/h",speed_hi,speed_lo);
-    UxStatic_SetData(&UIFlowWndMovie_SpeedCtrl,STATIC_VALUE,Txt_Pointer(Speed_buf));
+    //speed_total = ((Speed[0]<<8)&&0xff00)|(Speed[1]&&0xff);
+    //speed_hi = speed_total/10;
+    //speed_lo = speed_total%10;
+    //sprintf(Speed_buf,"Speed: %03d.%d km/h",speed_hi,speed_lo);
+    //sprintf(Speed_buf,"Speed: %f km/h",gpsdata.rmcinfo.Speed);
+    //UxStatic_SetData(&UIFlowWndMovie_SpeedCtrl,STATIC_VALUE,Txt_Pointer(Speed_buf));
     switch(Get_DisplayIndex())
     {
     case DISPLAY_OFF://disappear.
@@ -2013,7 +2014,7 @@ INT32 UIFlowWndMovie_OnTimer(VControl *pCtrl, UINT32 paramNum, UINT32 *paramArra
     static UINT32 GPSDataCounter_Pre=0;
     RTC_DATE    Date;
     RTC_TIME    Time;	
-	
+
     key = paramArray[0];
  //   debug_err(("UIFlowWndMovie_OnTimer\n\r"));
     if(Get_DisplayIndex() != DISPLAY_OFF)
@@ -2030,42 +2031,38 @@ INT32 UIFlowWndMovie_OnTimer(VControl *pCtrl, UINT32 paramNum, UINT32 *paramArra
                UIFlowWndMovie_Update_Speed();
 			   UIFlowWndMovie_Update_Gps_status();  
             }
-            #if 1
-            //update time
-            {
-                RTC_DATE    Date;
-                RTC_TIME    Time;
-                Date = rtc_getDate();
-                Time = rtc_getTime();
-                sprintf(date_str,"%04d/%02d/%02d",Date.s.year,Date.s.month,Date.s.day);
-                sprintf(time_str,"%02d:%02d:%02d",Time.s.hour,Time.s.minute,Time.s.second);
-                UxStatic_SetData(&UIFlowWndMovie_YMD_StaticCtrl,STATIC_VALUE,Txt_Pointer(date_str));
-                UxStatic_SetData(&UIFlowWndMovie_HMS_StaticCtrl,STATIC_VALUE,Txt_Pointer(time_str));
-            }
-            #endif
+			
+		//update time
+		Time = rtc_getTime();
+        Date = rtc_getDate();
+        //debug_msg("rtc_get_time: hour = %d, minute = %d, second = %d \r\n",Time.s.hour, Time.s.minute, Time.s.second);    
+        sprintf(date_str,"%04d/%02d/%02d",Date.s.year,Date.s.month,Date.s.day);
+        sprintf(time_str,"%02d:%02d:%02d",Time.s.hour,Time.s.minute,Time.s.second);
+        UxStatic_SetData(&UIFlowWndMovie_YMD_StaticCtrl,STATIC_VALUE,Txt_Pointer(date_str));
+        UxStatic_SetData(&UIFlowWndMovie_HMS_StaticCtrl,STATIC_VALUE,Txt_Pointer(time_str));
+			
 //----------------------jack lan begin-----------------------------------------
         //if(GPSDataCounter!=GPSDataCounter_Pre)
 		if(GPSRec_CheckData()) 
         {
           UxCtrl_SetShow(&UIFlowWndMovie_GPSCtrl, FALSE);
           UxCtrl_SetShow(&UIFlowWndMovie_SpeedCtrl, FALSE);			
-	    sprintf(SP_buf, "SP: %d%d%d%d.%d%d%d%d.%d%d%d%d",SP_1[0],SP_1[1],SP_1[2],SP_1[3],SP_1[4],SP_1[5],SP_1[6],SP_1[7],SP_1[8],
-			SP_1[9],SP_1[10],SP_1[11]);
-	    UxStatic_SetData(&UIFlowWndMovie_GPSCtrl,STATIC_VALUE,Txt_Pointer(SP_buf));
+	    //sprintf(SP_buf, "SP: %d%d%d%d.%d%d%d%d.%d%d%d%d",SP_1[0],SP_1[1],SP_1[2],SP_1[3],SP_1[4],SP_1[5],SP_1[6],SP_1[7],SP_1[8],
+			//SP_1[9],SP_1[10],SP_1[11]);
+	    //UxStatic_SetData(&UIFlowWndMovie_GPSCtrl,STATIC_VALUE,Txt_Pointer(SP_buf));
 		
-	    speed_total = ((Speed[0]<<8)&0xff00)|(Speed[1]&0xff);
-	    speed_hi = speed_total/10;
-	    speed_lo = speed_total%10;
-		
+	    //speed_total = ((Speed[0]<<8)&0xff00)|(Speed[1]&0xff);
+	    //speed_hi = speed_total/10;
+	    //speed_lo = speed_total%10;
 	    //sprintf(Speed_buf,"Speed: %03d.%d km/h",speed_hi,speed_lo);
-	    sprintf(Speed_buf,"Speed: %f km/h",gpsdata.rmcinfo.Speed);
+	    sprintf(Speed_buf,"Speed: %d km/h",(UINT32)(gpsdata.rmcinfo.Speed));
 	    UxStatic_SetData(&UIFlowWndMovie_SpeedCtrl,STATIC_VALUE,Txt_Pointer(Speed_buf));          
           //UxCtrl_SetShow(&UIFlowWndMovie_GPSCtrl, TRUE);
           UxCtrl_SetShow(&UIFlowWndMovie_SpeedCtrl, TRUE);
 	    GPSDataCounter_Pre =GPSDataCounter;
 	    GPSDataInputFlag=TRUE;		
 	    Counter=0;
-	    debug_err(("----GPS has Data----GPSDataCounter:%d\r\n",GPSDataCounter));		
+	    debug_msg("----GPS has Data----\r\n");		
           }	   
 	   else
          {
@@ -2137,21 +2134,22 @@ INT32 UIFlowWndMovie_OnTimer(VControl *pCtrl, UINT32 paramNum, UINT32 *paramArra
 		   	second=0;
 		   #endif
 			    debug_err(("----GPS set time----\r\n"));
-		   
-                rtc_setDate(year,month,day);
+		         
                 rtc_setTime(hour,minute,second);
+				rtc_setDate(year,month,day);
+				//debug_msg("gps_set_time: hour = %d, minute = %d, second = %d\r\n",hour,minute,second);
     		   USERFolder_set();
 		   GPSTimeReset=0;
 				
 	         }
 	   }
 	   
-	   if(	GPSTimeReset>10)
+	   /*if(	GPSTimeReset>10)
 	   {
 		if(GPSSetTime==FALSE){
 			GPSSetTime=TRUE;
 			GPSTimeReset=0;}
-	   }
+	   }*/
 
 //----------------------jack lan end-----------------------------------------				
             break;
